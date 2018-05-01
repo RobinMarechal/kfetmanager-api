@@ -9,10 +9,10 @@
         "fideloper/proxy": "^4.0",
         "laravel/framework": "5.6.*",
         "laravel/tinker": "^1.0",
-        "robinmarechal/laravel-rest-api": "^0.0.4"
+        "robinmarechal/laravel-rest-api": "0.0.*"
     },
     "require-dev": {
-        "filp/whoops": "^2.0",
+        "filp/whoops": "~2.0",
         "fzaninotto/faker": "^1.4",
         "mockery/mockery": "^1.0",
         "nunomaduro/collision": "^2.0",
