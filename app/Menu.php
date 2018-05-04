@@ -5,7 +5,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 
-class Menus extends Model
+class Menu extends Model
 {
 	use SoftDeletes;
 	public $fillables = ['name', 'price'];

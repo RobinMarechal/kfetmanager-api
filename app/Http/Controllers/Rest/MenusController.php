@@ -3,7 +3,7 @@ namespace App\Http\Controllers\Rest;
 
 use App\Http\Controllers\Controller;
 
-class MenusesController extends Controller
+class MenusController extends Controller
 {
 
 }

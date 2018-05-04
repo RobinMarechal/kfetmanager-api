@@ -12,4 +12,11 @@ class Controller extends BaseController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
     use HandleRestRequest;
+
+    protected $request;
+
+    function __construct(\Illuminate\Http\Request $request)
+    {
+        $this->request = $request;
+    }
 }
