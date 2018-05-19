@@ -13,7 +13,6 @@ class CashFlow extends Model
     public function treasury(){
         return $this->hasOne('App\Treasury', 'movement_id')
                     ->where('movement_type', 'CASH_FLOW')
-                    ->orderBy('id', 'desc')
-                    ->limit(1);
+                    ->where('movement_operation', 'INSERT');
     }
 }

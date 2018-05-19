@@ -35,7 +35,7 @@ class Order extends Model
 	public function treasury(){
 	    return $this->hasOne('App\Treasury', 'movement_id')
                     ->where('movement_type', 'ORDER')
-                    ->where('movement_operation', 'INSERT')
+                    ->where('movement_operation', 'INSERT');
 
     }
 }
