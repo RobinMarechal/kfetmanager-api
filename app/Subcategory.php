@@ -8,7 +8,8 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Subcategory extends Model
 {
 	use SoftDeletes;
-	public $fillables = ['name', 'category_id'];
+	protected $fillable = ['name', 'category_id'];
+    public $timestamps = false;
 
 	public function products(){
 		return $this->hasMany('App\Product');

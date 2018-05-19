@@ -8,9 +8,12 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class CashFlow extends Model
 {
 	use SoftDeletes;
-	public $fillables = ['amount', 'description'];
+	protected $fillable = ['amount', 'description'];
 
-	public function treasury(){
-		return $this->hasOne('App\Treasury');
-	}
+    public function treasury(){
+        return $this->hasOne('App\Treasury', 'movement_id')
+                    ->where('movement_type', 'CASH_FLOW')
+                    ->orderBy('id', 'desc')
+                    ->limit(1);
+    }
 }

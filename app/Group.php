@@ -7,7 +7,8 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Group extends Model
 {
     use SoftDeletes;
-	public $fillables = ['name'];
+	protected $fillable = ['name'];
+    public $timestamps = false;
 
 	public function customers(){
 		return $this->belongsToMany('App\Customer');

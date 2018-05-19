@@ -20,7 +20,7 @@ class CreateProductsTable extends Migration
             $table->integer('subcategory_id')->nullable(false)->unsigned();
             $table->float('purchase_price')->nullable(false)->default(0);
             $table->float('price')->nullable(false);
-            $table->integer('float')->nullable(false)->default(0);
+            $table->integer('stock')->nullable(false)->default(0);
         });
     }
 

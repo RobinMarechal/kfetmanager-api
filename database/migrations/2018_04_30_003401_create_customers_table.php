@@ -18,7 +18,7 @@ class CreateCustomersTable extends Migration
             $table->softDeletes();
             $table->string('email', 50)->nullable(false);
             $table->string('name', 40)->nullable(false);
-            $table->enum('year', ['FIRST','SECOND','THIRD','FOURTH','FIFTH','PROFESSOR','PHD','OTHER'])->default('OTHER')->nullable(false);
+            $table->enum('year', ['PEIP','THIRD','FOURTH','FIFTH','PHD','PROFESSOR','OTHER'])->default('OTHER')->nullable(false);
             $table->enum('department', ['DI', 'DII', 'DMS', 'DEE', 'PEIP', 'DAE', 'OTHER'])->default('OTHER')->nullable(false);
             $table->float('balance')->nullable(false)->default(0);
         });

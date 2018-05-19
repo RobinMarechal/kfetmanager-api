@@ -8,7 +8,8 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Menu extends Model
 {
 	use SoftDeletes;
-	public $fillables = ['name', 'price'];
+	protected $fillable = ['name', 'price'];
+    public $timestamps = false;
 
 	public function categories(){
 		return $this->belongsToMany('App\Category');

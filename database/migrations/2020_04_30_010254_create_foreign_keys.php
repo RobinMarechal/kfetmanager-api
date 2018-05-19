@@ -69,6 +69,20 @@ class CreateForeignKeys extends Migration
                   ->onUpdate('cascade');
         });
 
+        Schema::table('order_product', function (Blueprint $table) {
+            $table->foreign('product_id')
+                  ->references('id')
+                  ->on('products')
+                  ->onDelete('cascade')
+                  ->onUpdate('cascade');
+
+            $table->foreign('order_id')
+                  ->references('id')
+                  ->on('orders')
+                  ->onDelete('cascade')
+                  ->onUpdate('cascade');
+        });
+
         Schema::table('products', function (Blueprint $table) {
             $table->foreign('subcategory_id')
                   ->references('id')

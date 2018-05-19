@@ -8,14 +8,18 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Category extends Model
 {
 	use SoftDeletes;
-	public $fillables = ['name'];
+	protected $fillable = ['name'];
+    public $timestamps = false;
 
 	public function subcategories(){
 		return $this->hasMany('App\Subcategory');
 	}
 
-
 	public function menus(){
 		return $this->belongsToMany('App\Menu');
 	}
+
+	public function products(){
+	    return $this->hasManyThrough('App\Product', 'App\Subcategory');
+    }
 }

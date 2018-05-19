@@ -8,6 +8,7 @@ class File extends Model
 {
     public $temporalField = 'from';
 	public $dates = ['from', 'to'];
-	public $fillables = ['type', 'path', 'comment', 'from', 'to'];
+	protected $fillable = ['type', 'path', 'comment', 'from', 'to'];
+    public $timestamps = false;
 
 }
