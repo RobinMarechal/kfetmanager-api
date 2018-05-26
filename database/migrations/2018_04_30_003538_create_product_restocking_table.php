@@ -16,6 +16,7 @@ class CreateProductRestockingTable extends Migration
         Schema::create('product_restocking', function (Blueprint $table) {
             $table->integer('product_id')->unsigned();
             $table->integer('restocking_id')->unsigned();
+            $table->float('quantity')->default(0);
             $table->primary(['product_id', 'restocking_id']);
         });
     }

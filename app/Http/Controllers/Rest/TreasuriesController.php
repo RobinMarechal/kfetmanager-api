@@ -27,4 +27,21 @@ class TreasuriesController extends Controller
 
         return RestResponse::make($treasury, Response::HTTP_OK)->toJsonResponse();
     }
+
+
+    public function all(): RestResponse
+    {
+        $res = parent::all();
+        if (!$res->getData()->count()) {
+            Treasury::create([
+                'balance' => 0,
+                'movement_id' => 0,
+            ]);
+
+            return parent::all();
+        }
+
+        return $res;
+    }
+
 }

@@ -1,10 +1,20 @@
 <?php
 namespace App;
 
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Customer extends Model
+/**
+ * @property string email
+ * @property string name
+ * @property float balance
+ * @property string year
+ * @property string department
+ * @property Collection groups
+ * @property Collection orders
+ */
+class Customer extends BaseModel
 {
     use SoftDeletes;
 	protected $fillable = ['email', 'name', 'balance', 'year', 'department'];

@@ -4,7 +4,7 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 
 
-class File extends Model
+class File extends BaseModel
 {
     public $temporalField = 'from';
 	public $dates = ['from', 'to'];
