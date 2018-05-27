@@ -7,8 +7,10 @@ use App\Observers\CashFlowObserver;
 use App\Observers\OrderObserver;
 use App\Observers\OrderProductObserver;
 use App\Observers\RestockingObserver;
+use App\Observers\TestObserver;
 use App\Order;
 use App\OrderProduct;
+use App\ProductRestocking;
 use App\Restocking;
 use Illuminate\Support\ServiceProvider;
 

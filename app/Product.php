@@ -1,39 +1,47 @@
 <?php
+
 namespace App;
 
+use App\Observers\ProductObserver;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Collection;
 
 /**
- * @property string name
- * @property int subcategory_id
- * @property float purchase_price
- * @property float price
- * @property int stock
- * @property Collection restockings
- * @property Collection orders
+ * @property string      name
+ * @property int         subcategory_id
+ * @property float       purchase_price
+ * @property float       price
+ * @property int         stock
+ * @property Collection  restockings
+ * @property Collection  orders
  * @property Subcategory subcategory
  */
 class Product extends BaseModel
 {
-	use SoftDeletes;
-	protected $fillable = ['name', 'subcategory_id', 'purchase_price', 'price', 'stock'];
+    use SoftDeletes;
+
     public $timestamps = false;
 
-	public function restockings(){
-		return $this->belongsToMany('App\Restocking')->withPivot(['quantity']);
-	}
+    protected $fillable = ['name', 'subcategory_id', 'purchase_price', 'price', 'stock'];
 
 
-	public function orders(){
-		return $this->belongsToMany('App\Order');
-	}
+    public function restockings()
+    {
+        return $this->belongsToMany('App\Restocking')->withPivot(['quantity']);
+    }
 
 
-	public function subcategory(){
-		return $this->belongsTo('App\Subcategory');
-	}
+    public function orders()
+    {
+        return $this->belongsToMany('App\Order');
+    }
+
+
+    public function subcategory()
+    {
+        return $this->belongsTo('App\Subcategory');
+    }
 
 
     //---
@@ -42,18 +50,12 @@ class Product extends BaseModel
     {
         parent::boot();
 
-        static::pivotAttached(function ($model, $relationName, $pivotIds, $pivotIdsAttributes) {
-            if ($relationName === 'orders') {
-                $model->stock -= count($pivotIds);
-                $model->save();
-            }
+        static::pivotAttaching(function ($model, $relationName, $pivotIds, $pivotIdsAttributes) {
+            ProductObserver::dispatchAttachment($model, $relationName, $pivotIds, $pivotIdsAttributes);
         });
 
-        static::pivotDetached(function ($model, $relationName, $pivotIds) {
-            if ($relationName === 'orders') {
-                $model->stock += count($pivotIds);
-                $model->save();
-            }
+        static::pivotDetaching(function ($model, $relationName, $pivotIds) {
+            ProductObserver::dispatchDetachment($model, $relationName, $pivotIds);
         });
     }
 }

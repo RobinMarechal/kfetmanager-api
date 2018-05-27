@@ -10,7 +10,6 @@ use App\TreasuryUpdater;
 
 class TreasuryUpdaterObserver
 {
-
     public function created(TreasuryUpdater $instance)
     {
         $operation = Treasury::MOVEMENT_OPERATION_INSERT;
@@ -27,7 +26,6 @@ class TreasuryUpdaterObserver
         $this->insertTreasuryRow($operation, -$value, $instance);
     }
 
-
     public function updating(TreasuryUpdater $instance)
     {
         $operation = Treasury::MOVEMENT_OPERATION_INSERT;
@@ -40,8 +38,10 @@ class TreasuryUpdaterObserver
         $oldValue = $oldInstance->getRelativeValue();
         $newValue = $instance->getRelativeValue();
 
-        // Updating is restoring the balance's state then incrementing/reducing it by the new value
-        $this->insertTreasuryRow($operation, -$oldValue + $newValue, $instance);
+        if ($oldValue !== $newValue) {
+            // Updating is restoring the balance's state then incrementing/reducing it by the new value
+            $this->insertTreasuryRow($operation, -$oldValue + $newValue, $instance);
+        }
     }
 
 
@@ -51,7 +51,7 @@ class TreasuryUpdaterObserver
     {
         $type = $this->guessMovementType($instance);
         $newBalance = Treasury::currentBalance() + $toAdd;
-        
+
         Treasury::create([
             'movement_operation' => $operation,
             'movement_type' => $type,

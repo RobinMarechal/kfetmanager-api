@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Observers\OrderObserver;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Carbon;
@@ -75,32 +76,40 @@ class Order extends BaseModel implements TreasuryUpdater
     {
         parent::boot();
 
-        static::pivotAttached(function ($model, $relationName, $pivotIds, $pivotIdsAttributes) {
-            if(!is_null($model->deleted_at)){
-                return ;
-            }
-
-            if ($relationName === 'products') {
-                foreach ($pivotIds as $id) {
-                    $p = Product::find($id);
-                    $p->stock--;
-                    $p->save();
-                }
-            }
+        static::pivotAttaching(function ($model, $relationName, $pivotIds, $pivotIdsAttributes) {
+            OrderObserver::dispatchAttachment($model, $relationName, $pivotIds, $pivotIdsAttributes);
         });
 
-        static::pivotDetached(function ($model, $relationName, $pivotIds) {
-            if(!is_null($model->deleted_at)){
-                return ;
-            }
-
-            if ($relationName === 'products') {
-                foreach ($pivotIds as $id) {
-                    $p = Product::find($id);
-                    $p->stock++;
-                    $p->save();
-                }
-            }
+        static::pivotDetaching(function ($model, $relationName, $pivotIds) {
+            OrderObserver::dispatchDetachment($model, $relationName, $pivotIds);
         });
+
+//        static::pivotAttached(function ($model, $relationName, $pivotIds, $pivotIdsAttributes) {
+//            if(!is_null($model->deleted_at)){
+//                return ;
+//            }
+//
+//            if ($relationName === 'products') {
+//                foreach ($pivotIds as $id) {
+//                    $p = Product::find($id);
+//                    $p->stock--;
+//                    $p->save();
+//                }
+//            }
+//        });
+//
+//        static::pivotDetached(function ($model, $relationName, $pivotIds) {
+//            if(!is_null($model->deleted_at)){
+//                return ;
+//            }
+//
+//            if ($relationName === 'products') {
+//                foreach ($pivotIds as $id) {
+//                    $p = Product::find($id);
+//                    $p->stock++;
+//                    $p->save();
+//                }
+//            }
+//        });
     }
 }

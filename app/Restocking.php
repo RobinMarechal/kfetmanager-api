@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Observers\RestockingObserver;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
@@ -59,36 +60,18 @@ class Restocking extends BaseModel implements TreasuryUpdater
     }
 
 
-    // ---
+    //---
 
     protected static function boot()
     {
         parent::boot();
 
-        static::pivotAttached(function ($restocking, $relationName, $pivotIds, $pivotIdsAttributes) {
-            if ($relationName === 'products') {
-                foreach ($pivotIdsAttributes as $pId => $attributes) {
-                    $quantity = $attributes['quantity'];
-                    $p = Product::find($pId);
-                    $p->stock += $quantity;
-                    $p->save();
-                }
-            }
+        static::pivotAttaching(function ($model, $relationName, $pivotIds, $pivotIdsAttributes) {
+            RestockingObserver::dispatchAttachment($model, $relationName, $pivotIds, $pivotIdsAttributes);
         });
 
-//        static::pivotDetaching(function ($model, $relationName, $pivotIds) {
-//            if ($relationName === 'products') {
-//                $pivots = ProductRestocking::with('product')
-//                                           ->where('restocking_id', $model->id)
-//                                           ->whereIn('product_id', $pivotIds)
-//                                           ->get();
-//
-//                foreach ($pivots as $pivot) {
-//                    $quantity = $pivot->quantity;
-//                    $pivot->product->stock - +$quantity;
-//                    $pivot->product->stock->save();
-//                }
-//            }
-//        });
+        static::pivotDetaching(function ($model, $relationName, $pivotIds) {
+            RestockingObserver::dispatchDetachment($model, $relationName, $pivotIds);
+        });
     }
 }
