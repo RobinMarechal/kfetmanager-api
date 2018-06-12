@@ -143,11 +143,6 @@ class CreateForeignKeys extends Migration
         });
 
         Schema::table('products', function(Blueprint $table){
-            $table->dropForeign('orders_customer_id_foreign');
-            $table->dropForeign('orders_menu_id_foreign');
-        });
-
-        Schema::table('products', function(Blueprint $table){
             $table->dropForeign('products_subcategory_id_foreign');
         });
 

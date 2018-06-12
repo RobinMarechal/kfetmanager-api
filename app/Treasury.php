@@ -18,7 +18,6 @@ class Treasury extends BaseModel
 
     protected $fillable = ['movement_type', 'movement_id', 'movement_operation', 'balance'];
 
-
     public static function current()
     {
         return self::orderBy('id', 'desc')->select()->first();

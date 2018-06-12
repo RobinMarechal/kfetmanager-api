@@ -1,7 +1,7 @@
 {
     "name": "laravel/laravel",
     "description": "The Laravel Framework.",
-    "keywords": ["framework", "laravel"],
+    "keywords": ["framework", "laravel", "kfetmanager"],
     "license": "MIT",
     "type": "project",
     "require": {
@@ -37,7 +37,11 @@
     "autoload-dev": {
         "psr-4": {
             "Tests\\": "tests/"
-        }
+        },
+        "classmap": [
+            "tests",
+            "database/"
+        ]
     },
     "extra": {
         "laravel": {

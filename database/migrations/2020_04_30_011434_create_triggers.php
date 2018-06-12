@@ -6,13 +6,16 @@ use Illuminate\Database\Migrations\Migration;
 
 class CreateTriggers extends Migration
 {
+
     /**
      * Run the migrations.
      *
      * @return void
      */
+
     public function up()
     {
+        /*
         \Illuminate\Support\Facades\DB::unprepared('
             CREATE TRIGGER `cash_flows__update_treasury_on_creation` AFTER INSERT ON `cash_flows` FOR EACH ROW BEGIN 
                 SET @amount = NEW.amount; 
@@ -258,6 +261,7 @@ class CreateTriggers extends Migration
                 END IF;
             END
         ');
+        */
     }
 
     /**
@@ -267,6 +271,7 @@ class CreateTriggers extends Migration
      */
     public function down()
     {
+        /*
         \Illuminate\Support\Facades\DB::unprepared('DROP TRIGGER IF EXISTS `cash_flows__update_treasury_on_creation`;');
         \Illuminate\Support\Facades\DB::unprepared('DROP TRIGGER IF EXISTS `cash_flows__update_treasury_on_delete`;');
         \Illuminate\Support\Facades\DB::unprepared('DROP TRIGGER IF EXISTS `cash_flows__update_treasury_on_update`;');
@@ -276,5 +281,6 @@ class CreateTriggers extends Migration
         \Illuminate\Support\Facades\DB::unprepared('DROP TRIGGER IF EXISTS `restockings__update_treasury_on_creation`;');
         \Illuminate\Support\Facades\DB::unprepared('DROP TRIGGER IF EXISTS `restockings__update_treasury_on_delete`;');
         \Illuminate\Support\Facades\DB::unprepared('DROP TRIGGER IF EXISTS `restockings__update_treasury_on_update`;');
+        */
     }
 }
