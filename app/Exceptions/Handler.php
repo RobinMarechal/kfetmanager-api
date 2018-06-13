@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Exceptions;
+
 use Exception;
 use Illuminate\Database\QueryException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
@@ -18,6 +19,7 @@ class Handler extends ExceptionHandler
     protected $dontReport = [
         //
     ];
+
     /**
      * A list of the inputs that are never flashed for validation exceptions.
      *
@@ -40,6 +42,8 @@ class Handler extends ExceptionHandler
     {
         parent::report($exception);
     }
+
+
     /**
      * Render an exception into an HTTP response.
      *
@@ -51,8 +55,14 @@ class Handler extends ExceptionHandler
     {
         if ($request->header('Content-Type') === 'application/json' &&
             ($e instanceof NotFoundHttpException || $e instanceof QueryException || $e instanceof ClassNotFoundException)) {
-            return RestResponse::error($e->getMessage())->toJsonResponse();
+            $message = $e->getMessage();
+            if (!$message || $message === "") {
+                $message = last(explode("\\", get_class($e)));
+            }
+
+            return RestResponse::error($message)->toJsonResponse();
         }
+
         return parent::render($request, $e);
     }
 }
